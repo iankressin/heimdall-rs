@@ -296,27 +296,12 @@ pub async fn decompile(args: DecompilerArgs) -> Result<DecompileResult, Error> {
 
         // analyze execution tree
         let mut analyzed_function;
+        let function = Function::default(selector.clone(), function_entry_point);
         if args.include_yul {
             debug_max!("analyzing symbolic execution trace '0x{}' with yul analyzer", selector);
             analyzed_function = analyze_yul(
                 &map,
-                Function {
-                    selector: selector.clone(),
-                    entry_point: function_entry_point,
-                    arguments: HashMap::new(),
-                    storage: HashMap::new(),
-                    memory: HashMap::new(),
-                    returns: None,
-                    logic: Vec::new(),
-                    events: HashMap::new(),
-                    errors: HashMap::new(),
-                    resolved_function: None,
-                    indent_depth: 0,
-                    notices: Vec::new(),
-                    pure: true,
-                    view: true,
-                    payable: true,
-                },
+                function,
                 &mut trace,
                 func_analysis_trace,
                 &mut Vec::new(),
@@ -325,23 +310,7 @@ pub async fn decompile(args: DecompilerArgs) -> Result<DecompileResult, Error> {
             debug_max!("analyzing symbolic execution trace '0x{}' with sol analyzer", selector);
             analyzed_function = analyze_sol(
                 &map,
-                Function {
-                    selector: selector.clone(),
-                    entry_point: function_entry_point,
-                    arguments: HashMap::new(),
-                    storage: HashMap::new(),
-                    memory: HashMap::new(),
-                    returns: None,
-                    logic: Vec::new(),
-                    events: HashMap::new(),
-                    errors: HashMap::new(),
-                    resolved_function: None,
-                    indent_depth: 0,
-                    notices: Vec::new(),
-                    pure: true,
-                    view: true,
-                    payable: true,
-                },
+                function,
                 &mut trace,
                 func_analysis_trace,
                 &mut Vec::new(),

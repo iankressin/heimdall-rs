@@ -79,6 +79,26 @@ pub struct CalldataFrame {
 }
 
 impl Function {
+    pub fn default(selector: String, entry_point: u128) -> Self {
+        Function {
+            selector,
+            entry_point,
+            arguments: HashMap::new(),
+            storage: HashMap::new(),
+            memory: HashMap::new(),
+            returns: None,
+            logic: Vec::new(),
+            events: HashMap::new(),
+            errors: HashMap::new(),
+            resolved_function: None,
+            indent_depth: 0,
+            notices: Vec::new(),
+            pure: true,
+            view: true,
+            payable: true,
+        }
+    }
+
     // get a specific memory slot
     pub fn get_memory_range(&self, _offset: U256, _size: U256) -> Vec<StorageFrame> {
         let mut memory_slice: Vec<StorageFrame> = Vec::new();
